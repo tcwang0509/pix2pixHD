@@ -4,14 +4,8 @@ from data.base_data_loader import BaseDataLoader
 
 def CreateDataset(opt):
     dataset = None
-    if opt.dataset_mode == 'aligned':
-        from data.aligned_dataset import AlignedDataset
-        dataset = AlignedDataset()
-    elif opt.dataset_mode == 'single':
-        from data.single_dataset import SingleDataset
-        dataset = SingleDataset()
-    else:
-        raise ValueError("Dataset [%s] not recognized." % opt.dataset_mode)
+    from data.aligned_dataset import AlignedDataset
+    dataset = AlignedDataset()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)

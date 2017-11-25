@@ -17,18 +17,19 @@ class AlignedDataset(BaseDataset):
         self.label_paths = sorted(make_dataset(self.dir_label))
 
         ### real images
-        self.dir_image = os.path.join(opt.dataroot, opt.phase)  
-        self.image_paths = sorted(make_dataset(self.dir_image))
+        if opt.isTrain:
+            self.dir_image = os.path.join(opt.dataroot, opt.phase + '_img')  
+            self.image_paths = sorted(make_dataset(self.dir_image))
 
         ### instance maps
         if opt.use_instance:
-            self.dir_inst = os.path.join(opt.dataroot, opt.phase + '_instance')
+            self.dir_inst = os.path.join(opt.dataroot, opt.phase + '_inst')
             self.inst_paths = sorted(make_dataset(self.dir_inst))
 
         ### load precomputed instance-wise encoded features
         if opt.load_features:                              
-            self.dir_feat = os.path.join(opt.dataroot, opt.phase + '_feature_G3')
-            print('-----------loading features from %s----------' % self.dir_feat)
+            self.dir_feat = os.path.join(opt.dataroot, opt.phase + '_feat')
+            print('----------- loading features from %s ----------' % self.dir_feat)
             self.feat_paths = sorted(make_dataset(self.dir_feat))
 
         self.dataset_size = len(self.label_paths) 
@@ -41,14 +42,15 @@ class AlignedDataset(BaseDataset):
         transform_label = get_transform(self.opt, params, method=Image.NEAREST, normalize=False)
         label_tensor = transform_label(label) * 255.0
 
+        image_tensor = inst_tensor = feat_tensor = 0
         ### real images
-        image_path = self.image_paths[index]   
-        image = Image.open(image_path).convert('RGB')
-        transform_image = get_transform(self.opt, params)      
-        image_tensor = transform_image(image)
+        if self.opt.isTrain:
+            image_path = self.image_paths[index]   
+            image = Image.open(image_path).convert('RGB')
+            transform_image = get_transform(self.opt, params)      
+            image_tensor = transform_image(image)
 
-        ### if using instance maps
-        inst_tensor = feat_tensor = 0
+        ### if using instance maps        
         if self.opt.use_instance:
             inst_path = self.inst_paths[index]
             inst = Image.open(inst_path)

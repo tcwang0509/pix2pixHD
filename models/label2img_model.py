@@ -9,9 +9,9 @@ from .base_model import BaseModel
 from . import networks
 import time
 
-class Pix2PixModel(BaseModel):
+class Label2ImgModel(BaseModel):
     def name(self):
-        return 'Pix2PixModel'
+        return 'Label2ImgModel'
 
     def initialize(self, opt):
         BaseModel.initialize(self, opt)

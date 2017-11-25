@@ -27,8 +27,7 @@ for i, data in enumerate(dataset):
         break
     generated = model.inference(data)
     visuals = OrderedDict([('input_label', util.tensor2label(data['label'][0], opt.label_nc)),
-                           ('synthesized_image', util.tensor2im(generated.data[0])),
-                           ('real_image', util.tensor2im(data['image'][0]))])
+                           ('synthesized_image', util.tensor2im(generated.data[0]))])
     img_path = data['path']
     print('process image... %s' % img_path)
     visualizer.save_images(webpage, visuals, img_path)
