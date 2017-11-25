@@ -25,7 +25,7 @@ webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (opt.na
 for i, data in enumerate(dataset):
     if i >= opt.how_many:
         break
-    generated = model.inference(data)
+    generated = model.inference(data['label'], data['inst'])
     visuals = OrderedDict([('input_label', util.tensor2label(data['label'][0], opt.label_nc)),
                            ('synthesized_image', util.tensor2im(generated.data[0]))])
     img_path = data['path']
