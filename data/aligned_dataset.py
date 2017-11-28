@@ -18,7 +18,7 @@ class AlignedDataset(BaseDataset):
 
         ### real images
         if opt.isTrain:
-            self.dir_image = os.path.join(opt.dataroot, opt.phase + '')  
+            self.dir_image = os.path.join(opt.dataroot, opt.phase + '_img')  
             self.image_paths = sorted(make_dataset(self.dir_image))
 
         ### instance maps

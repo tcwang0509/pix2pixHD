@@ -9,20 +9,19 @@ from .base_model import BaseModel
 from . import networks
 import time
 
-class Label2ImgModel(BaseModel):
+class Pix2PixHDModel(BaseModel):
     def name(self):
-        return 'Label2ImgModel'
+        return 'Pix2PixHDModel'
 
     def initialize(self, opt):
         BaseModel.initialize(self, opt)
         self.isTrain = opt.isTrain
         if opt.resize_or_crop != 'none':
             torch.backends.cudnn.benchmark = True
-
-        # define networks
         self.use_features = opt.instance_feat or opt.label_feat
         self.gen_features = self.use_features and not self.opt.load_features
 
+        ##### define networks        
         # Generator network
         netG_input_nc = opt.label_nc
         if not opt.no_instance:

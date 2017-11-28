@@ -1,8 +1,8 @@
 import torch
 
 def create_model(opt):
-    from .label2img_model import Label2ImgModel
-    model = Label2ImgModel()    
+    from .pix2pixHD_model import Pix2PixHDModel
+    model = Pix2PixHDModel()    
     model.initialize(opt)
     print("model [%s] was created" % (model.name()))
 
