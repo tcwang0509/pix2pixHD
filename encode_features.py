@@ -12,7 +12,6 @@ opt.batchSize = 1
 opt.serial_batches = True 
 opt.no_flip = True
 opt.instance_feat = True
-opt.use_instance = True
 
 name = 'features'
 save_path = os.path.join(opt.checkpoints_dir, opt.name)

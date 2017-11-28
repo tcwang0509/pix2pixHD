@@ -31,13 +31,15 @@ def get_norm_layer(norm_type='instance'):
 def define_G(input_nc, output_nc, ngf, netG, n_downsample_global=3, n_blocks_global=9, n_local_enhancers=1, 
              n_blocks_local=3, norm='instance', gpu_ids=[]):    
     norm_layer = get_norm_layer(norm_type=norm)     
-    if netG == 'resnet':    
-        netG = ResnetGenerator(input_nc, output_nc, ngf, n_downsample_global, n_blocks_global, norm_layer)       
-    elif netG == 'cas_resnet':        
-        netG = CasResnetGenerator(input_nc, output_nc, ngf, n_downsample_global, n_blocks_global, 
+    if netG == 'global':    
+        netG = GlobalGenerator(input_nc, output_nc, ngf, n_downsample_global, n_blocks_global, norm_layer)       
+    elif netG == 'local':        
+        netG = LocalEnhancer(input_nc, output_nc, ngf, n_downsample_global, n_blocks_global, 
                                   n_local_enhancers, n_blocks_local, norm_layer)
     elif netG == 'encoder':
         netG = Encoder(input_nc, output_nc, ngf, n_downsample_global, norm_layer)
+    else:
+        raise('generator not implemented!')
     print(netG)
     if len(gpu_ids) > 0:
         assert(torch.cuda.is_available())   
@@ -128,15 +130,15 @@ class VGGLoss(nn.Module):
 ##############################################################################
 # Generator
 ##############################################################################
-class CasResnetGenerator(nn.Module):
+class LocalEnhancer(nn.Module):
     def __init__(self, input_nc, output_nc, ngf=32, n_downsample_global=3, n_blocks_global=9, 
                  n_local_enhancers=1, n_blocks_local=3, norm_layer=nn.BatchNorm2d, padding_type='reflect'):        
-        super(CasResnetGenerator, self).__init__()
+        super(LocalEnhancer, self).__init__()
         self.n_local_enhancers = n_local_enhancers
         
         ###### global generator model #####           
         ngf_global = ngf * (2**n_local_enhancers)
-        model_global = ResnetGenerator(input_nc, output_nc, ngf_global, n_downsample_global, n_blocks_global, norm_layer).model        
+        model_global = GlobalGenerator(input_nc, output_nc, ngf_global, n_downsample_global, n_blocks_global, norm_layer).model        
         model_global = [model_global[i] for i in range(len(model_global)-3)] # get rid of final convolution layers        
         self.model = nn.Sequential(*model_global)                
 
@@ -182,11 +184,11 @@ class CasResnetGenerator(nn.Module):
             output_prev = model_upsample(model_downsample(input_i) + output_prev)
         return output_prev
 
-class ResnetGenerator(nn.Module):
+class GlobalGenerator(nn.Module):
     def __init__(self, input_nc, output_nc, ngf=64, n_downsampling=3, n_blocks=9, norm_layer=nn.BatchNorm2d, 
                  padding_type='reflect'):
         assert(n_blocks >= 0)
-        super(ResnetGenerator, self).__init__()        
+        super(GlobalGenerator, self).__init__()        
         activation = nn.ReLU(True)        
 
         model = [nn.ReflectionPad2d(3), nn.Conv2d(input_nc, ngf, kernel_size=7, padding=0), norm_layer(ngf), activation]

@@ -25,7 +25,7 @@ class Label2ImgModel(BaseModel):
 
         # Generator network
         netG_input_nc = opt.label_nc
-        if opt.use_instance:
+        if not opt.no_instance:
             netG_input_nc += 1
         if self.use_features:
             netG_input_nc += opt.feat_num                  
@@ -37,7 +37,7 @@ class Label2ImgModel(BaseModel):
         if self.isTrain:
             use_sigmoid = opt.no_lsgan
             netD_input_nc = opt.label_nc + opt.output_nc
-            if opt.use_instance:
+            if not opt.no_instance:
                 netD_input_nc += 1
             self.netD = networks.define_D(netD_input_nc, opt.ndf, opt.n_layers_D, opt.norm, use_sigmoid, 
                                           opt.num_D, not opt.no_ganFeat_loss, gpu_ids=self.gpu_ids)
@@ -104,7 +104,7 @@ class Label2ImgModel(BaseModel):
         input_label = input_label.scatter_(1, label_map.data.long().cuda(), 1.0)
 
         # get edges from instance map
-        if self.opt.use_instance:
+        if not self.opt.no_instance:
             inst_map = inst_map.data.cuda()
             edge_map = self.get_edges(inst_map)
             input_label = torch.cat((input_label, edge_map), dim=1) 
@@ -174,7 +174,8 @@ class Label2ImgModel(BaseModel):
         return [ [ loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_D_real, loss_D_fake ], None if not infer else fake_image ]
 
     def inference(self, label, inst):
-        # Encode Inputs               
+        start = time.time()
+        # Encode Inputs        
         input_label, inst_map, _, _ = self.encode_input(Variable(label), Variable(inst), infer=True)
 
         # Fake Generation
@@ -183,8 +184,9 @@ class Label2ImgModel(BaseModel):
             feat_map = self.sample_features(inst_map)
             input_concat = torch.cat((input_label, feat_map), dim=1)                        
         else:
-            input_concat = input_label        
+            input_concat = input_label                
         fake_image = self.netG.forward(input_concat)
+        print(time.time() - start)
         return fake_image
 
     def sample_features(self, inst): 

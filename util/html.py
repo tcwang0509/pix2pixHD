@@ -29,7 +29,7 @@ class HTML:
         self.t = table(border=border, style="table-layout: fixed;")
         self.doc.add(self.t)
 
-    def add_images(self, ims, txts, links, width=400):
+    def add_images(self, ims, txts, links, width=512):
         self.add_table()
         with self.t:
             with tr():

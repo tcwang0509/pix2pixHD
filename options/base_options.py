@@ -36,7 +36,7 @@ class BaseOptions():
         self.parser.add_argument('--display_id', type=int, default=1, help='window id of the web display')                                       
 
         # for generator
-        self.parser.add_argument('--netG', type=str, default='resnet', help='selects model to use for netG')
+        self.parser.add_argument('--netG', type=str, default='global', help='selects model to use for netG')
         self.parser.add_argument('--ngf', type=int, default=64, help='# of gen filters in first conv layer')
         self.parser.add_argument('--n_downsample_global', type=int, default=3, help='number of downsampling layers in netG') 
         self.parser.add_argument('--n_blocks_global', type=int, default=9, help='number of residual blocks in the global generator network')
@@ -45,9 +45,9 @@ class BaseOptions():
         self.parser.add_argument('--niter_fix_global', type=int, default=0, help='number of epochs that we only train the outmost local enhancer')        
 
         # for instance-wise features
-        self.parser.add_argument('--use_instance', action='store_true', help='if specified, add instance map as input')        
-        self.parser.add_argument('--instance_feat', action='store_true', help='if specified, encode instance features as input')
-        self.parser.add_argument('--label_feat', action='store_true', help='if specified, encode label features as input')        
+        self.parser.add_argument('--no_instance', action='store_true', help='if specified, do *not* add instance map as input')        
+        self.parser.add_argument('--instance_feat', action='store_true', help='if specified, add encoded instance features as input')
+        self.parser.add_argument('--label_feat', action='store_true', help='if specified, add encoded label features as input')        
         self.parser.add_argument('--feat_num', type=int, default=3, help='vector length for encoded features')        
         self.parser.add_argument('--load_features', action='store_true', help='if specified, load precomputed feature maps')
         self.parser.add_argument('--n_downsample_E', type=int, default=4, help='# of downsampling layers in encoder') 

@@ -18,11 +18,11 @@ class AlignedDataset(BaseDataset):
 
         ### real images
         if opt.isTrain:
-            self.dir_image = os.path.join(opt.dataroot, opt.phase + '_img')  
+            self.dir_image = os.path.join(opt.dataroot, opt.phase + '')  
             self.image_paths = sorted(make_dataset(self.dir_image))
 
         ### instance maps
-        if opt.use_instance:
+        if not opt.no_instance:
             self.dir_inst = os.path.join(opt.dataroot, opt.phase + '_inst')
             self.inst_paths = sorted(make_dataset(self.dir_inst))
 
@@ -51,7 +51,7 @@ class AlignedDataset(BaseDataset):
             image_tensor = transform_image(image)
 
         ### if using instance maps        
-        if self.opt.use_instance:
+        if not self.opt.no_instance:
             inst_path = self.inst_paths[index]
             inst = Image.open(inst_path)
             inst_tensor = transform_label(inst)
