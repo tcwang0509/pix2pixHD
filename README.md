@@ -1,6 +1,11 @@
+<img src='imgs/teaser_720.gif' align="right" width=720>
+
+<br><br><br>
+
 # pix2pixHD
 
 Pytorch implementation for doing high-resolution image translation, for example, turning semantic label maps to photo-realistic images.
+<img src="imgs/teaser_website.jpg" width="900"/>
 
 ## Prerequisites
 - Linux or macOS
