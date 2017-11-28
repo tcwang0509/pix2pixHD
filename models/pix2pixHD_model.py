@@ -7,7 +7,6 @@ import util.util as util
 from util.image_pool import ImagePool
 from .base_model import BaseModel
 from . import networks
-import time
 
 class Pix2PixHDModel(BaseModel):
     def name(self):
@@ -173,7 +172,6 @@ class Pix2PixHDModel(BaseModel):
         return [ [ loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_D_real, loss_D_fake ], None if not infer else fake_image ]
 
     def inference(self, label, inst):
-        start = time.time()
         # Encode Inputs        
         input_label, inst_map, _, _ = self.encode_input(Variable(label), Variable(inst), infer=True)
 
@@ -185,7 +183,6 @@ class Pix2PixHDModel(BaseModel):
         else:
             input_concat = input_label                
         fake_image = self.netG.forward(input_concat)
-        print(time.time() - start)
         return fake_image
 
     def sample_features(self, inst): 
