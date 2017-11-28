@@ -15,8 +15,6 @@ class Pix2PixHDModel(BaseModel):
     def initialize(self, opt):
         BaseModel.initialize(self, opt)
         self.isTrain = opt.isTrain
-        if opt.resize_or_crop != 'none':
-            torch.backends.cudnn.benchmark = True
         self.use_features = opt.instance_feat or opt.label_feat
         self.gen_features = self.use_features and not self.opt.load_features
 
