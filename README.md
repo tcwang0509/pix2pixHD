@@ -4,7 +4,9 @@
 
 # pix2pixHD
 
-Pytorch implementation for doing high-resolution image translation, for example, turning semantic label maps to photo-realistic images. <br><br><br>
+Pytorch implementation for doing high-resolution image translation, for example, turning semantic label maps to photo-realistic images. <br><br>
+
+## image-to-image translation at 2k/1k resolution
 <img src="imgs/teaser_website.jpg" width="900"/> <br>
 
 ## Prerequisites
