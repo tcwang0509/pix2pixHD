@@ -4,7 +4,7 @@
 
 # pix2pixHD
 
-Pytorch implementation for doing high-resolution image translation, for example, turning semantic label maps to photo-realistic images. <br><br>
+Pytorch implementation for high-resolution (e.g. 2048x1024) photorealistic image-to-image translation, for example, turning semantic label maps into photo-realistic images, or synthesizing portraits from face label maps. <br><br>
 
 ## image-to-image translation at 2k/1k resolution
 - Our label-to-streetview results
@@ -48,7 +48,7 @@ Pytorch implementation for doing high-resolution image translation, for example,
 ## Prerequisites
 - Linux or macOS
 - Python 2 or 3
-- NVIDIA GPU (12G or 24G memory) + CUDA CuDNN
+- NVIDIA GPU (12G or 24G memory) + CUDA cuDNN
 
 ## Getting Started
 ### Installation
