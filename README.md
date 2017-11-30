@@ -12,7 +12,7 @@ Pytorch implementation for high-resolution (e.g. 2048x1024) photorealistic image
 ## Prerequisites
 - Linux or macOS
 - Python 2 or 3
-- NVIDIA GPU (12G or 24G memory) + CUDA CuDNN
+- NVIDIA GPU (12G or 24G memory) + CUDA cuDNN
 
 ## Getting Started
 ### Installation
