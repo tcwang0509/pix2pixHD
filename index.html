@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+  <title>Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<meta property="og:image" content="https://tcwang0509.github.io/pix2pixHD/images/teaser_fb.jpg"/>
+<meta property="og:title" content="High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs" />
+
+<script src="lib.js" type="text/javascript"></script>
+<script src="popup.js" type="text/javascript"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-53682931-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript">
+// redefining default features
+var _POPUP_FEATURES = 'width=500,height=300,resizable=1,scrollbars=1,titlebar=1,status=1';
+</script>
+<link media="all" href="glab.css" type="text/css" rel="StyleSheet">
+<style type="text/css" media="all">
+IMG {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	FLOAT: right;
+	PADDING-BOTTOM: 0px;
+	PADDING-TOP: 0px
+}
+#primarycontent {
+	MARGIN-LEFT: auto; ; WIDTH: expression(document.body.clientWidth >
+1000? "1000px": "auto" ); MARGIN-RIGHT: auto; TEXT-ALIGN: left; max-width:
+1000px }
+BODY {
+	TEXT-ALIGN: center
+}
+</style>
+
+<meta content="MSHTML 6.00.2800.1400" name="GENERATOR"><script src="b5m.js" id="b5mmain" type="text/javascript"></script></head>
+
+<body>
+
+<div id="primarycontent">
+<center><h1>High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs</h1></center>
+<center><h2>
+  Ting-Chun Wang<sup>1</sup>&nbsp;&nbsp;&nbsp;
+  Ming-Yu Liu<sup>1</sup>&nbsp;&nbsp;&nbsp;
+  Jun-Yan Zhu<sup>2</sup>&nbsp;&nbsp;&nbsp;
+  Andrew Tao<sup>1</sup>&nbsp;&nbsp;&nbsp;
+  Jan Kautz<sup>1</sup>&nbsp;&nbsp;&nbsp;
+  Bryan Catanzaro<sup>1</sup></center>
+  
+<center><h2><sup>1</sup>NVIDIA Corporation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>2</sup>UC Berkeley</h2></center>
+
+<center><h2><strong><a href="https://arxiv.org/pdf/1703.10593.pdf">[Paper]</a>  
+<a href="https://github.com/NVIDIA/pix2pixHD">[Code (PyTorch)]</a></strong> </h2></center>
+<center><a href="https://tcwang0509.github.io/pix2pixHD/images/teaser_high_res.jpg">
+<img src="images/teaser_720.gif" width="1000"> </a></center>
+<p></p>
+
+
+ <p></p><p></p>
+<h2>Abstract</h2>
+
+<div style="font-size:14px"><p>We present a new method for synthesizing high-resolution photo-realistic images from semantic label maps using conditional generative adversarial networks (conditional GANs). Conditional GANs have enabled a variety of applications, but the results are often limited to low-resolution and still far from realistic. In this work, we generate 2048x1024 visually appealing results with a novel adversarial loss, as well as new multi-scale generator and discriminator architectures. Furthermore, we extend our framework to interactive visual manipulation with two additional features. First, we incorporate object instance segmentation information, which enables object manipulations such as removing/adding objects and changing the object category. Second, we propose a method to generate diverse results given the same input, allowing users to edit the object appearance interactively. Human opinion studies demonstrate that our method significantly outperforms existing methods, advancing both the quality and the resolution of deep image synthesis and editing.</p></div>
+
+<a href="https://arxiv.org/pdf/1703.10593.pdf"><img style="float: left; padding: 10px; PADDING-RIGHT: 30px;" alt="paper thumbnail" src="images/paper_thumbnail.jpg" width=170></a>
+<br>
+
+<h2>Paper</h2>
+<p><a href="https://arxiv.org/abs/1703.10593">arxiv 1703.10593</a>,  2017. </p>
+
+
+
+<h2>Citation</h2>
+<p>Ting-Chun Wang, Ming-Yu Liu, Jun-Yan Zhu, Andrew Tao, Jan Kautz, and Bryan Catanzaro. "High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs", in .
+<a href="CycleGAN.txt">Bibtex</a>
+
+</p>
+
+
+<h2>Code: <a href='https://github.com/NVIDIA/pix2pixHD'> Pytorch </a> </h2>
+<br>
+
+<h2 align='center'>Example Results</h2>
+
+<table border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td colspan="2" align="center" valign="middle"><h2>Semantic labels &#8594 Cityscapes street views</h2></td>
+  </tr>
+  <tr>
+  <td align="center" valign="middle"><a href="images/teaser_label.png"><img src="images/teaser_label.png"  width=500> </a></td>
+  <td align="center" valign="middle"><a href="images/teaser_ours.jpg"><img src="images/teaser_ours.jpg"  width=500> </a></td>      
+  </tr>
+  <p>
+  <tr>
+    <td colspan="2" align="center" valign="middle"><h2>Interactive editing results</h2></td>
+  </tr>
+  <tr>
+  <td align="center" valign="middle"><a href="images/teaser_style.gif"><img src="images/teaser_style.gif"  width=500> </a></td>
+  <td align="center" valign="middle"><a href="images/teaser_label.gif"><img src="images/teaser_label.gif"  width=500> </a></td>      
+  </tr>
+</table>
+<p>
+
+<table border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td colspan="2" align="center" valign="middle"><h2>Additional streetview results</h2></td>
+  </tr>
+  <tr>
+  <td align="center" valign="middle"><a href="images/cityscapes_1.jpg"><img src="images/cityscapes_1.jpg"  width=500> </a></td>
+  <td align="center" valign="middle"><a href="images/cityscapes_2.jpg"><img src="images/cityscapes_2.jpg"  width=500> </a></td>      
+  </tr>
+  <p>
+  <tr>
+  <td align="center" valign="middle"><a href="images/cityscapes_3.jpg"><img src="images/cityscapes_3.jpg"  width=500> </a></td>
+  <td align="center" valign="middle"><a href="images/cityscapes_4.jpg"><img src="images/cityscapes_4.jpg"  width=500> </a></td>      
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+<table border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td colspan="3" align="center" valign="middle"><h2>Labels &#8594 face &nbsp;& &nbsp; interactive editing results</h2></td>
+  </tr>
+  <tr>
+  <td align="center" valign="middle"><a href="images/face1_1.jpg"><img src="images/face1_1.jpg"  width=330> </a></td>
+  <td align="center" valign="middle"><a href="images/face1_2.jpg"><img src="images/face1_2.jpg"  width=330> </a></td>
+  <td align="center" valign="middle"><a href="images/face1_3.jpg"><img src="images/face1_3.jpg"  width=330> </a></td>
+  </tr>
+  <p>
+  <tr>
+  <td align="center" valign="middle"><a href="images/face2_1.jpg"><img src="images/face2_1.jpg"  width=330> </a></td>
+  <td align="center" valign="middle"><a href="images/face2_2.jpg"><img src="images/face2_2.jpg"  width=330> </a></td>
+  <td align="center" valign="middle"><a href="images/face2_3.jpg"><img src="images/face2_3.jpg"  width=330> </a></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+<table border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td colspan="2" align="center" valign="middle"><h2>Our editing interface</h2></td>
+  </tr>
+  <tr>
+  <td align="center" valign="middle"><a href="images/city_short.gif"><img src="images/city_short.gif"  width=440> </a></td>
+  <td align="center" valign="middle"><a href="images/face_short.gif"><img src="images/face_short.gif"  width=540> </a></td>      
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+
+
+<table align="center" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="middle"><h2>Our UI and comparisons</h2>
+    </tr>
+    <tr>
+    <td align="center" valign="middle">
+    <p> <iframe width="960" height="540" src="https://www.youtube.com/embed/9reHvktowLY" frameborder="0" allowfullscreen></iframe></p>
+   </td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+
+
+<br>
+<h2>Acknowledgement</h2>
+<p>We thank Taesung Park, Phillip Isola, Tinghui Zhou, Richard Zhang, Rafael Valle and Alexei A. Efros for helpful comments. We also thank Chen and Koltun and Isola et al. for sharing their code. JYZ is supported by a Facebook graduate fellowship.</p>
+
+<div style="display:none">
+<!-- GoStats JavaScript Based Code -->
+<script type="text/javascript" src="http://gostats.com/js/counter.js"></script>
+<script type="text/javascript">_gos='c3.gostats.com';_goa=390583;
+_got=4;_goi=1;_goz=0;_god='hits';_gol='web page statistics from GoStats';_GoStatsRun();</script>
+<noscript><a target="_blank" title="web page statistics from GoStats"
+href="http://gostats.com"><img alt="web page statistics from GoStats"
+src="http://c3.gostats.com/bin/count/a_390583/t_4/i_1/z_0/show_hits/counter.png"
+style="border-width:0" /></a></noscript>
+</div>
+<!-- End GoStats JavaScript Based Code -->
+</body></html
+>
