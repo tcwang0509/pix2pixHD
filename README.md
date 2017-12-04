@@ -57,12 +57,6 @@ Pytorch implementation of our method for high-resolution (e.g. 2048x1024) photor
 ## Getting Started
 ### Installation
 - Install PyTorch and dependencies from http://pytorch.org
-- Install Torch vision from the source.
-```bash
-git clone https://github.com/pytorch/vision
-cd vision
-python setup.py install
-```
 - Install python libraries [dominate](https://github.com/Knio/dominate).
 ```bash
 pip install dominate
@@ -73,10 +67,24 @@ git clone https://github.com/tcwang0509/pix2pixHD
 cd pix2pixHD
 ```
 
+
+### Testing
+- A few examples Cityscape test images are included in the `datasets` folder.
+- Please download the pre-trained Cityscapes model from [here](https://drive.google.com/file/d/1h9SykUnuZul7J3Nbms2QGH1wa85nbN2-/view?usp=sharing) (google drive link), and put it under `./checkpoints/label2city_1024p/`
+- Test the model (`bash ./scripts/test_1024p.sh`):
+```bash
+#!./scripts/test_1024p.sh
+python test.py --name label2city_1024p --phase test --how_many 15 --netG local --ngf 32 --resize_or_crop none
+```
+The test results will be saved to a html file here: `./results/label2city_1024p/test_latest/index.html`.
+
+More example scripts can be found in the `scripts` directory.
+
+
 ### Dataset
-- We use the Cityscapes dataset. Some examples images are included in the `datasets` folder.
-To train on the full dataset, please download it from the [official website](https://www.cityscapes-dataset.com/) (registration required).
+- We use the Cityscapes dataset. To train a model on the full dataset, please download it from the [official website](https://www.cityscapes-dataset.com/) (registration required).
 After downloading, please put it under the `datasets` folder in the same way the example images are provided.
+
 
 ### Training
 - Train a model at 1024 x 512 resolution (`bash ./scripts/train_512p.sh`):
@@ -98,22 +106,12 @@ Note: this is not tested and we trained our model using single GPU only. Please 
 - To train the images at full resolution (2048 x 1024) requires a GPU with 24G memory (`bash ./scripts/train_1024p_24G.sh`).
 If only GPUs with 12G memory are available, please use the 12G script (`bash ./scripts/train_1024p_12G.sh`), which will crop the images during training. Performance is not guaranteed using this script.
 
-### Testing
-- Please download the pretrained model from [here](https://drive.google.com/file/d/1h9SykUnuZul7J3Nbms2QGH1wa85nbN2-/view?usp=sharing) (google drive link), and put it under `./checkpoints/label2city_1024p/`
-- Test the model (`bash ./scripts/test_1024p.sh`):
-```bash
-#!./scripts/test_1024p.sh
-python test.py --name label2city_1024p --phase test --how_many 15 --netG local --ngf 32 --resize_or_crop none
-```
-The test results will be saved to a html file here: `./results/label2city_1024p/test_latest/index.html`.
 
-More example scripts can be found in the `scripts` directory.
-
-## Training/test Details
+## More Training/test Details
 - Flags: see `options/train_options.py` and `options/base_options.py` for all the training flags; see `options/test_options.py` and `options/base_options.py` for all the test flags.
 
 
-### Citation
+## Citation
 
 If you find this useful for your research, please use the following.
 
@@ -125,3 +123,6 @@ If you find this useful for your research, please use the following.
   year={2017}
 }
 ```
+
+## Acknowledgments
+This code borrows heavily from [pytorch-CycleGAN-and-pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
