@@ -16,6 +16,8 @@ class Pix2PixHDModel(BaseModel):
 
     def initialize(self, opt):
         BaseModel.initialize(self, opt)
+        if opt.resize_or_crop != 'none': # when training at full res this causes OOM
+            torch.backends.cudnn.benchmark = True
         self.isTrain = opt.isTrain
         self.use_features = opt.instance_feat or opt.label_feat
         self.gen_features = self.use_features and not self.opt.load_features
@@ -58,10 +60,9 @@ class Pix2PixHDModel(BaseModel):
 
         # set loss functions and optimizers
         if self.isTrain:
-            if opt.pool_size > 1:
-                if (len(self.gpu_ids)) > 1:
-                    raise NotImplementedError("Fake Pool Not Implemented for MultiGPU")
-                self.fake_pool = ImagePool(opt.pool_size)
+            if opt.pool_size > 0 and (len(self.gpu_ids)) > 1:
+                raise NotImplementedError("Fake Pool Not Implemented for MultiGPU")
+            self.fake_pool = ImagePool(opt.pool_size)
             self.old_lr = opt.lr
 
             # define loss functions
@@ -121,13 +122,12 @@ class Pix2PixHDModel(BaseModel):
         return input_label, inst_map, real_image, feat_map
 
     def discriminate(self, input_label, test_image, use_pool=False):
-        if use_pool and (self.opt.pool_size > 1):
-            if (len(self.gpu_ids)) > 1:
-                raise NotImplementedError("Fake Pool Not Implemented for MultiGPU")
-            fake_concat = self.fake_pool.query(torch.cat((input_label, test_image), dim=1))
-            return self.netD.forward(fake_concat)
+        input_concat = torch.cat((input_label, test_image.detach()), dim=1)
+        if use_pool:            
+            fake_query = self.fake_pool.query(input_concat)
+            return self.netD.forward(fake_query)
         else:
-            return self.netD.forward(torch.cat((input_label, test_image), dim=1))
+            return self.netD.forward(input_concat)
 
     def forward(self, label, inst, image, feat, infer=False):
         # Encode Inputs
@@ -143,21 +143,22 @@ class Pix2PixHDModel(BaseModel):
         fake_image = self.netG.forward(input_concat)
 
         # Fake Detection and Loss
-        pred_fake = self.discriminate(input_label, fake_image, use_pool=True)
-        loss_D_fake = self.criterionGAN(pred_fake, False)        
+        pred_fake_pool = self.discriminate(input_label, fake_image, use_pool=True)
+        loss_D_fake = self.criterionGAN(pred_fake_pool, False)        
 
         # Real Detection and Loss        
         pred_real = self.discriminate(input_label, real_image)
         loss_D_real = self.criterionGAN(pred_real, True)
 
-        # GAN loss (Fake Passability Loss)
+        # GAN loss (Fake Passability Loss)        
+        pred_fake = self.netD.forward(torch.cat((input_label, fake_image), dim=1))        
         loss_G_GAN = self.criterionGAN(pred_fake, True)               
         
         # GAN feature matching loss
         loss_G_GAN_Feat = 0
         if not self.opt.no_ganFeat_loss:
-            feat_weights = 2.0 / (self.opt.n_layers_D + 1)
-            D_weights = 2.0 / self.opt.num_D
+            feat_weights = 4.0 / (self.opt.n_layers_D + 1)
+            D_weights = 1.0 / self.opt.num_D
             for i in range(self.opt.num_D):
                 for j in range(len(pred_fake[i])-1):
                     loss_G_GAN_Feat += D_weights * feat_weights * \

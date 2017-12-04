@@ -41,9 +41,8 @@ visualizer = Visualizer(opt)
 total_steps = (start_epoch-1) * dataset_size + epoch_iter    
 for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
     epoch_start_time = time.time()
-    iter_end_time = epoch_start_time
     if epoch != start_epoch:
-        epoch_iter = 0
+        epoch_iter = epoch_iter % dataset_size
     for i, data in enumerate(dataset, start=epoch_iter):
         iter_start_time = time.time()
         total_steps += opt.batchSize
@@ -67,7 +66,7 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
         ############### Backward Pass ####################
         # update generator weights
         model.module.optimizer_G.zero_grad()
-        loss_G.backward(retain_graph=True)
+        loss_G.backward()
         model.module.optimizer_G.step()
 
         # update discriminator weights

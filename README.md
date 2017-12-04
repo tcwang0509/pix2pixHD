@@ -1,12 +1,16 @@
 <img src='imgs/teaser_720.gif' align="right" width=360>
 
-<br><br><br><br><br><br>
+<br><br><br><br>
 
 # pix2pixHD
+### [[Project]](https://tcwang0509.github.io/pix2pixHD/) [[Youtube]](https://youtu.be/3AIpPlzM_qs) [[Paper]](https://arxiv.org/pdf/1711.11585.pdf) <br>
+Pytorch implementation of our method for high-resolution (e.g. 2048x1024) photorealistic image-to-image translation. It can be used for turning semantic label maps into photo-realistic images or synthesizing portraits from face label maps. <br><br>
+[High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs](https://tcwang0509.github.io/pix2pixHD/)  
+ [Ting-Chun Wang](https://tcwang0509.github.io/)<sup>1</sup>, [Ming-Yu Liu](http://mingyuliu.net/)<sup>1</sup>, [Jun-Yan Zhu](http://people.eecs.berkeley.edu/~junyanz/)<sup>2</sup>, Andrew Tao<sup>1</sup>, [Jan Kautz](http://jankautz.com/)<sup>1</sup>, [Bryan Catanzaro](http://catanzaro.name/)<sup>1</sup>  
+ <sup>1</sup>NVIDIA Corporation, <sup>2</sup>UC Berkeley  
+ In arxiv, 2017.  
 
-Pytorch implementation for high-resolution (e.g. 2048x1024) photorealistic image-to-image translation, for example, turning semantic label maps into photo-realistic images, or synthesizing portraits from face label maps. <br><br>
-
-## image-to-image translation at 2k/1k resolution
+## Image-to-image translation at 2k/1k resolution
 - Our label-to-streetview results
 <p align='center'>  
   <img src='imgs/teaser_label.png' width='440'/>
@@ -86,7 +90,7 @@ python train.py --name label2city_512p
 - Train a model using multiple GPUs (`bash ./scripts/train_512p_multigpu.sh`):
 ```bash
 #!./scripts/train_512p_multigpu.sh
-python train.py --name label2city_512p --pool_size 1 --batchSize 8 --gpu_ids 0,1,2,3,4,5,6,7
+python train.py --name label2city_512p --batchSize 8 --gpu_ids 0,1,2,3,4,5,6,7
 ```
 Note: this is not tested and we trained our model using single GPU only. Please use at your own discretion.
 
@@ -107,3 +111,17 @@ More example scripts can be found in the `scripts` directory.
 
 ## Training/test Details
 - Flags: see `options/train_options.py` and `options/base_options.py` for all the training flags; see `options/test_options.py` and `options/base_options.py` for all the test flags.
+
+
+### Citation
+
+If you find this useful for your research, please use the following.
+
+```
+@article{wang2017highres,
+  title={High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs},
+  author={Ting-Chun Wang and Ming-Yu Liu and Jun-Yan Zhu and Andrew Tao and Jan Kautz and Bryan Catanzaro},
+  journal={arXiv preprint arXiv:1711.11585},
+  year={2017}
+}
+```
