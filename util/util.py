@@ -9,7 +9,6 @@ import numpy as np
 import os
 import collections
 from PIL import Image
-import cv2
 
 # Converts a Tensor into a Numpy array
 # |imtype|: the desired type of the converted numpy array

@@ -6,7 +6,6 @@ import ntpath
 import time
 from . import util
 from . import html
-import tensorflow as tf
 import scipy.misc 
 try:
     from StringIO import StringIO  # Python 2.7
@@ -16,11 +15,13 @@ except ImportError:
 class Visualizer():
     def __init__(self, opt):
         # self.opt = opt
-        self.display_id = opt.display_id
+        self.tf_log = opt.tf_log
         self.use_html = opt.isTrain and not opt.no_html
         self.win_size = opt.display_winsize
         self.name = opt.name
-        if self.display_id > 0:                    
+        if self.tf_log:
+            import tensorflow as tf
+            self.tf = tf
             self.log_dir = os.path.join(opt.checkpoints_dir, opt.name, 'logs')
             self.writer = tf.summary.FileWriter(self.log_dir)
 
@@ -36,7 +37,7 @@ class Visualizer():
 
     # |visuals|: dictionary of images to display or save
     def display_current_results(self, visuals, epoch, step):
-        if self.display_id > 0: # show images in the browser
+        if self.tf_log: # show images in tensorboard output
             img_summaries = []
             for label, image_numpy in visuals.items():
                 # Write the image to a string
@@ -46,12 +47,12 @@ class Visualizer():
                     s = BytesIO()
                 scipy.misc.toimage(image_numpy).save(s, format="jpeg")
                 # Create an Image object
-                img_sum = tf.Summary.Image(encoded_image_string=s.getvalue(), height=image_numpy.shape[0], width=image_numpy.shape[1])
+                img_sum = self.tf.Summary.Image(encoded_image_string=s.getvalue(), height=image_numpy.shape[0], width=image_numpy.shape[1])
                 # Create a Summary value
-                img_summaries.append(tf.Summary.Value(tag=label, image=img_sum))
+                img_summaries.append(self.tf.Summary.Value(tag=label, image=img_sum))
 
             # Create and write Summary
-            summary = tf.Summary(value=img_summaries)
+            summary = self.tf.Summary(value=img_summaries)
             self.writer.add_summary(summary, step)
 
         if self.use_html: # save images to a html file
@@ -94,9 +95,10 @@ class Visualizer():
 
     # errors: dictionary of error labels and values
     def plot_current_errors(self, errors, step):
-        for tag, value in errors.items():            
-            summary = tf.Summary(value=[tf.Summary.Value(tag=tag, simple_value=value)])
-            self.writer.add_summary(summary, step)
+        if self.tf_log:
+            for tag, value in errors.items():            
+                summary = self.tf.Summary(value=[self.tf.Summary.Value(tag=tag, simple_value=value)])
+                self.writer.add_summary(summary, step)
 
     # errors: same format as |errors| of plotCurrentErrors
     def print_current_errors(self, epoch, i, errors, t):

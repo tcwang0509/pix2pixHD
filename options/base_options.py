@@ -35,7 +35,7 @@ class BaseOptions():
 
         # for displays
         self.parser.add_argument('--display_winsize', type=int, default=512,  help='display window size')
-        self.parser.add_argument('--display_id', type=int, default=1, help='window id of the web display')                                       
+        self.parser.add_argument('--tf_log', action='store_true', help='if specified, use tensorboard logging. Requires tensorflow installed')
 
         # for generator
         self.parser.add_argument('--netG', type=str, default='global', help='selects model to use for netG')

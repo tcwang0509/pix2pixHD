@@ -69,7 +69,7 @@ pip install dominate
 ```
 - Clone this repo:
 ```bash
-git clone https://github.com/tcwang0509/pix2pixHD
+git clone https://github.com/NVIDIA/pix2pixHD
 cd pix2pixHD
 ```
 
@@ -103,7 +103,7 @@ If only GPUs with 12G memory are available, please use the 12G script (`bash ./s
 - Test the model (`bash ./scripts/test_1024p.sh`):
 ```bash
 #!./scripts/test_1024p.sh
-python test.py --name label2city_1024p --phase test --how_many 15 --netG local --ngf 32 --resize_or_crop none
+python test.py --name label2city_1024p --netG local --ngf 32 --resize_or_crop none
 ```
 The test results will be saved to a html file here: `./results/label2city_1024p/test_latest/index.html`.
 
@@ -113,7 +113,7 @@ More example scripts can be found in the `scripts` directory.
 - Flags: see `options/train_options.py` and `options/base_options.py` for all the training flags; see `options/test_options.py` and `options/base_options.py` for all the test flags.
 
 
-### Citation
+## Citation
 
 If you find this useful for your research, please use the following.
 

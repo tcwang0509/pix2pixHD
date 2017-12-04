@@ -227,12 +227,6 @@ class Pix2PixHDModel(BaseModel):
             feature[label] = np.append(feature[label], val, axis=0)
         return feature
 
-    def get_encoded_image(self, image, inst):
-        feat_map = self.netE.forward(image, inst)
-        feat_map = nn.Upsample(scale_factor=2, mode='nearest')(feat_map)        
-        return feat_map
-
-
     def get_edges(self, t):
         edge = torch.cuda.ByteTensor(t.size()).zero_()
         edge[:,:,:,1:] = edge[:,:,:,1:] | (t[:,:,:,1:] != t[:,:,:,:-1])
