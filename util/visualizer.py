@@ -6,7 +6,6 @@ import ntpath
 import time
 from . import util
 from . import html
-import tensorflow as tf
 import scipy.misc 
 try:
     from StringIO import StringIO  # Python 2.7
